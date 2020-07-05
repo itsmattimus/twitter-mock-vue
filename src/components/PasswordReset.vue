@@ -24,7 +24,7 @@ export default {
     return {
       email: '',
       showSuccess: false,
-      errorMsg: 'Sorry, we were not able to send a reset email!'
+      errorMsg: ''
     }
   },
   methods: {
@@ -34,7 +34,7 @@ export default {
         await auth.sendPasswordResetEmail(this.email)
         this.showSuccess = true
       } catch {
-        this.errorMsg
+        this.errorMsg = "Sorry, we were not able to send a reset email!"
       }
     }
   }

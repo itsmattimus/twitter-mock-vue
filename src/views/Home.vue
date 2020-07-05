@@ -6,13 +6,14 @@
     <section>
       <div class="col1">
         <div class="profile">
-          <h5>{{ userProfile.name }}</h5>
+          <h5>{{ userProfile.username }}</h5>
           <p>{{ userProfile.title }}</p>
           <div class="create-post">
-            <p>create a post</p>
+            <p>Create a Post</p>
             <form @submit.prevent>
               <textarea v-model.trim="post.content"></textarea>
-              <button @click="createPost()" :disabled="post.content === ''" class="button">post</button>
+              <input placeholder="Add an image url to your post"  v-model="post.image"/>
+              <button @click="createPost()" :disabled="post.content === ''" class="button">Post</button>
             </form>
           </div>
         </div>
@@ -20,8 +21,9 @@
       <div class="col2">
         <div v-if="posts.length">
           <div v-for="post in posts" :key="post.id" class="post">
-            <h5>{{ post.userName }}</h5>
+            <h5>{{ post.username }}</h5>
             <span>{{ post.createdOn | formatDate }}</span>
+            <img v-if="post.image" :src="post.image"/>
             <p>{{ post.content | trimLength }}</p>
             <ul>
               <li><a @click="toggleCommentModal(post)">comments {{ post.comments }}</a></li>
@@ -76,7 +78,8 @@ export default {
   data() {
     return {
       post: {
-        content: ''
+        content: '',
+        image: ''
       },
       showCommentModal: false,
       selectedPost: {},
@@ -90,8 +93,9 @@ export default {
   },
   methods: {
     createPost() {
-      this.$store.dispatch('createPost', { content: this.post.content })
-      this.post.content = ''
+      this.$store.dispatch('createPost', { content: this.post.content, image: this.post.image })
+      this.post.content = '',
+      this.post.image = ''
     },
     toggleCommentModal(post) {
       this.showCommentModal = !this.showCommentModal

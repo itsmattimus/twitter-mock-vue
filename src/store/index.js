@@ -32,7 +32,7 @@ const store = new Vuex.Store({
     },
     setPerformingRequest(state, val) {
       state.performingRequest = val
-    }    
+    }
   },
   actions: {
     async login({ dispatch }, form) {
@@ -79,11 +79,31 @@ const store = new Vuex.Store({
       await fb.postsCollection.add({
         createdOn: new Date(),
         content: post.content,
+        image: post.image,
         userId: fb.auth.currentUser.uid,
         username: state.userProfile.name,
         comments: 0,
         likes: 0
       })
+    },
+    async likePost({ commit }, post) {
+      const userId = fb.auth.currentUser.uid
+      const docId = `${userId}_${post.id}`
+
+      // check if user has liked post
+      const doc = await fb.likesCollection.doc(docId).get()
+      if (doc.exists) { return }
+
+      // create post
+      await fb.likesCollection.doc(docId).set({
+        postId: post.id,
+        userId: userId
+      })
+      // update post likes count
+      fb.postsCollection.doc(post.id).update({
+        likes: post.likesCount + 1
+      })
+      commit('doc');
     },
     async updateProfile({ dispatch }, user) {
       const userId = fb.auth.currentUser.uid
@@ -92,9 +112,11 @@ const store = new Vuex.Store({
         name: userRef.name,
         title: userRef.title
       })
-    
+
       dispatch('fetchUserProfile', { uid: userId })
-    
+
+
+
       // update all posts by user
       const postDocs = await fb.postsCollection.where('userId', '==', userId).get()
       postDocs.forEach(doc => {
@@ -102,7 +124,7 @@ const store = new Vuex.Store({
           userName: user.name
         })
       })
-    
+
       // update all comments by user
       const commentDocs = await fb.commentsCollection.where('userId', '==', userId).get()
       commentDocs.forEach(doc => {
