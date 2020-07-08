@@ -9,10 +9,10 @@
           <h5>{{ userProfile.name }}</h5>
           <p>{{ userProfile.title }}</p>
           <div class="create-post">
-            <p>create a post</p>
+            <p>Create a post</p>
             <form @submit.prevent>
               <textarea v-model.trim="post.content"></textarea>
-              <button @click="createPost()" :disabled="post.content === ''" class="button">post</button>
+              <button @click="createPost()" :disabled="post.content === ''" class="button">Post</button>
             </form>
           </div>
         </div>
@@ -47,14 +47,14 @@
     <transition name="fade">
       <div v-if="showPostModal" class="p-modal">
         <div class="p-container">
-          <a @click="closePostModal()" class="close">close</a>
+          <a @click="closePostModal()" class="close">Close</a>
           <div class="post">
             <h5>{{ fullPost.userName }}</h5>
             <span>{{ fullPost.createdOn | formatDate }}</span>
             <p>{{ fullPost.content }}</p>
             <ul>
-              <li><a>comments {{ fullPost.comments }}</a></li>
-              <li><a>likes {{ fullPost.likes }}</a></li>
+              <li><a>Comments {{ fullPost.comments }}</a></li>
+              <li><a>Likes {{ fullPost.likes }}</a></li>
             </ul>
           </div>
           <div v-show="postComments.length" class="comments">
