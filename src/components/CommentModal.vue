@@ -1,10 +1,10 @@
 <template>
   <div class="c-container">
-    <a @click="$emit('close')">Close</a>
     <p>Add a comment</p>
     <form @submit.prevent>
       <textarea v-model.trim="comment"></textarea>
       <button @click="addComment()" :disabled="comment == ''" class="button">Add comment</button>
+      <a id="close" @click="$emit('close')">Close</a>
       <hr/>
     </form>
   </div>
