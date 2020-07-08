@@ -124,7 +124,6 @@ const store = new Vuex.Store({
           userName: user.name
         })
       })
-
       // update all comments by user
       const commentDocs = await fb.commentsCollection.where('userId', '==', userId).get()
       commentDocs.forEach(doc => {

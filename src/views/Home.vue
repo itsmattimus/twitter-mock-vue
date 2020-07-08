@@ -1,16 +1,18 @@
 <template>
   <div id="dashboard">
+    <transition name="fade">
+      <CommentModal v-if="showCommentModal" :post="selectedPost" @close="toggleCommentModal()"></CommentModal>
+    </transition>
     <section>
       <div class="col1">
         <div class="profile">
-          <h5>{{ userProfile.username }}</h5>
+          <h5>{{ userProfile.name }}</h5>
           <p>{{ userProfile.title }}</p>
           <div class="create-post">
-            <p>Create a Post</p>
+            <p>create a post</p>
             <form @submit.prevent>
               <textarea v-model.trim="post.content"></textarea>
-              <input placeholder="Add an image url to your post" v-model="post.image" />
-              <button @click="createPost()" :disabled="post.content === ''" class="button">Post</button>
+              <button @click="createPost()" :disabled="post.content === ''" class="button">post</button>
             </form>
           </div>
         </div>
@@ -33,13 +35,6 @@
                 <a @click="viewPost(post)">View full post</a>
               </li>
             </ul>
-            <transition name="fade">
-              <CommentModal
-                v-if="showCommentModal"
-                :post="selectedPost"
-                @close="toggleCommentModal()"
-              ></CommentModal>
-            </transition>
           </div>
         </div>
         <div v-else>
@@ -58,12 +53,8 @@
             <span>{{ fullPost.createdOn | formatDate }}</span>
             <p>{{ fullPost.content }}</p>
             <ul>
-              <li>
-                <a>Comments {{ fullPost.comments }}</a>
-              </li>
-              <li>
-                <a>Likes {{ fullPost.likes }}</a>
-              </li>
+              <li><a>comments {{ fullPost.comments }}</a></li>
+              <li><a>likes {{ fullPost.likes }}</a></li>
             </ul>
           </div>
           <div v-show="postComments.length" class="comments">
