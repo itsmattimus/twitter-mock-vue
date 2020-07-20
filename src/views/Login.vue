@@ -1,7 +1,7 @@
 <template>
   <div id="login">
     <PasswordReset v-if="showPasswordReset" @close="togglePasswordReset()"></PasswordReset>
-    <section>
+    <section id="login-form">
       <div class="col1">
         <h1>Vuegram</h1>
         <p>Welcome to a sample social media web app powered by Vue.js and Firebase.</p>
@@ -10,14 +10,16 @@
         <form v-if="showLoginForm" @submit.prevent>
           <h1>Welcome Back</h1>
           <div>
-            <label for="email1">Email</label>
-            <input v-model.trim="loginForm.email" type="text" placeholder="you@email.com" id="email1" />
+            <b-field label="Email">
+            <b-input v-model.trim="loginForm.email" type="text" placeholder="you@email.com" id="email1" />
+            </b-field>
           </div>
           <div>
-            <label for="password1">Password</label>
-            <input v-model.trim="loginForm.password" type="password" placeholder="******" id="password1" />
+            <b-field label="Password">
+            <b-input v-model.trim="loginForm.password" type="password" placeholder="******" id="password1" />
+            </b-field>
           </div>
-          <button @click="login()" class="button">Log In</button>
+          <b-button @click="login()" class="button">Log In</b-button>
           <div class="extras">
             <a @click="togglePasswordReset()">Forgot Password?</a>
             <a @click="toggleForm()">Create an Account</a>
@@ -26,22 +28,26 @@
         <form v-else @submit.prevent>
           <h1>Get Started</h1>
           <div>
-            <label for="name">Name</label>
-            <input v-model.trim="signupForm.name" type="text" placeholder="Your Name" id="name" />
+            <b-field label="Name">
+            <b-input v-model.trim="signupForm.name" type="text" placeholder="Your Name" id="name" />
+            </b-field>
           </div>
           <div>
-            <label for="title">Title</label>
-            <input v-model.trim="signupForm.title" type="text" placeholder="Company" id="title" />
+            <b-field label="Title">
+            <b-input v-model.trim="signupForm.title" type="text" placeholder="Company" id="title" />
+            </b-field>
           </div>
           <div>
-            <label for="email2">Email</label>
-            <input v-model.trim="signupForm.email" type="text" placeholder="you@email.com" id="email2" />
+            <b-field label="Email">
+            <b-input v-model.trim="signupForm.email" type="text" placeholder="you@email.com" id="email2" />
+            </b-field>
           </div>
           <div>
-            <label for="password2">Password</label>
+            <b-field label="Password">
             <input v-model.trim="signupForm.password" type="password" placeholder="min 6 characters" id="password2" />
+            </b-field>
           </div>
-          <button @click="signup()" class="button">Sign Up</button>
+          <b-button @click="signup()" class="button">Sign Up</b-button>
           <div class="extras">
             <a @click="toggleForm()">Back to Log In</a>
           </div>
@@ -98,5 +104,8 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+  .login-form {
+    display: flex;
+  }
 </style>
