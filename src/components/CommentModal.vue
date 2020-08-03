@@ -28,7 +28,7 @@ export default {
         content: this.comment,
         postId: this.post.id,
         userId: auth.currentUser.uid,
-        userName: this.$store.state.userProfile.name
+        username: this.$store.state.userProfile.name
       })
 
       // update comment count on post

@@ -62,7 +62,8 @@ const store = new Vuex.Store({
       // create user profile object in userCollections
       await fb.usersCollection.doc(user.uid).set({
         name: form.name,
-        title: form.title
+        title: form.title,
+        pfp: ""
       })
 
       // fetch user profile and set in state
@@ -108,27 +109,26 @@ const store = new Vuex.Store({
     async updateProfile({ dispatch }, user) {
       const userId = fb.auth.currentUser.uid
       // update user object
-      const userRef = await fb.usersCollection.doc(userId).update({
-        name: userRef.name,
-        title: userRef.title
+      await fb.usersCollection.doc(userId).update({
+        name: user.name,
+        title: user.title,
+        pfp: user.pfp
       })
 
       dispatch('fetchUserProfile', { uid: userId })
-
-
 
       // update all posts by user
       const postDocs = await fb.postsCollection.where('userId', '==', userId).get()
       postDocs.forEach(doc => {
         fb.postsCollection.doc(doc.id).update({
-          userName: user.name
+          username: user.name
         })
       })
       // update all comments by user
       const commentDocs = await fb.commentsCollection.where('userId', '==', userId).get()
       commentDocs.forEach(doc => {
         fb.commentsCollection.doc(doc.id).update({
-          userName: user.name
+          username: user.name
         })
       })
     }

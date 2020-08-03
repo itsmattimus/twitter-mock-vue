@@ -8,10 +8,12 @@
         <div class="profile">
           <h5>{{ userProfile.name }}</h5>
           <p>{{ userProfile.title }}</p>
+          <img :src="userProfile.pfp" />
           <div class="create-post">
             <p>Create a post</p>
             <form @submit.prevent>
-              <textarea v-model.trim="post.content"></textarea>
+              <textarea v-model.trim="post.content" placeholder="Whats on your mind?"></textarea>
+              <input v-model.trim="post.image" placeholder="Add image url here!" />
               <button @click="createPost()" :disabled="post.content === ''" class="button">Post</button>
             </form>
           </div>
@@ -49,17 +51,21 @@
         <div class="p-container">
           <a @click="closePostModal()" class="close">Close</a>
           <div class="post">
-            <h5>{{ fullPost.userName }}</h5>
+            <h5>{{ fullPost.username }}</h5>
             <span>{{ fullPost.createdOn | formatDate }}</span>
             <p>{{ fullPost.content }}</p>
             <ul>
-              <li><a>Comments {{ fullPost.comments }}</a></li>
-              <li><a>Likes {{ fullPost.likes }}</a></li>
+              <li>
+                <a>Comments {{ fullPost.comments }}</a>
+              </li>
+              <li>
+                <a>Likes {{ fullPost.likes }}</a>
+              </li>
             </ul>
           </div>
           <div v-show="postComments.length" class="comments">
             <div v-for="comment in postComments" :key="comment.id" class="comment">
-              <p>{{ comment.userName }}</p>
+              <p>{{ comment.username }}</p>
               <span>{{ comment.createdOn | formatDate }}</span>
               <p>{{ comment.content }}</p>
             </div>
@@ -91,7 +97,7 @@ export default {
       showPostModal: false,
       fullPost: {},
       postComments: [],
-      userId: ''
+      userId: ""
     };
   },
   computed: {
