@@ -49,7 +49,7 @@ const store = new Vuex.Store({
 
       // set user profile in state
       commit('setUserProfile', userProfile.data())
-
+  
       // change route to dashboard
       if (router.currentRoute.path === '/login') {
         router.push('/')

@@ -174,7 +174,6 @@ header {
   section {
     padding: 2rem 0;
   }
-
   .col1 {
     flex: 0 0 30%;
 
@@ -262,6 +261,11 @@ header {
 
     h5 {
       margin: 0 0 0.5rem;
+      color: $dark;
+    }
+
+    h5:hover {
+      color: $primary
     }
 
     span {
@@ -410,6 +414,10 @@ header {
     margin-top: 3rem;
   }
 
+  .top-page {
+    max-width: 187.5px;
+  }
+
   .success {
     color: $success;
     margin: 0.5rem 0 -2rem;
@@ -419,8 +427,10 @@ header {
     margin-top: 2rem;
   }
 
-  p, h3 {
-    margin-right: 100px;
+  h3, p {
+    // margin-right: 100px;
+    max-width: 187.5px;
+    margin: 0px, 0px, 5px, 0px;
   }
 
   img {

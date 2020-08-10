@@ -20,9 +20,26 @@ const routes = [
     component: () => import('../views/Login.vue')
   },
   {
+    path: '/profile:userId',
+    name: 'Profile',
+    component: () => import('../views/Profile.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
     path: '/settings',
     name: 'Settings',
     component: () => import('../views/Settings.vue'),
+    props: true,
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/messaging',
+    name: 'Messages',
+    component: () => import('../views/Messaging.vue'),
     meta: {
       requiresAuth: true
     }

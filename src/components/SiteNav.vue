@@ -12,7 +12,12 @@
           <li>
             <router-link to="/settings">Settings</router-link>
           </li>
-          <li><a @click="logout()">Logout</a></li>
+          <router-link to="/messaging">
+            <li>Messages</li>
+          </router-link>
+          <li>
+            <a @click="logout()">Logout</a>
+          </li>
         </ul>
       </div>
     </section>
@@ -23,8 +28,8 @@
 export default {
   methods: {
     logout() {
-      this.$store.dispatch('logout')
-    }
-  }
-}
+      this.$store.dispatch("logout");
+    },
+  },
+};
 </script>

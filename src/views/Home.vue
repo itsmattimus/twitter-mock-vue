@@ -22,7 +22,9 @@
       <div class="col2">
         <div v-if="posts.length">
           <div v-for="post in posts" :key="post.id" class="post">
-            <h5>{{ post.username }}</h5>
+            <router-link :to="'profile/' + post.userId" :post="selectedUser">
+              <h5>{{ post.username }}</h5>
+            </router-link>
             <span>{{ post.createdOn | formatDate }}</span>
             <img v-if="post.image" :src="post.image" />
             <p>{{ post.content | trimLength }}</p>
@@ -78,36 +80,41 @@
 
 <script>
 import { commentsCollection } from "@/firebase";
+// import { usersCollection } from "@/firebase";
 import { mapState } from "vuex";
 import moment from "moment";
 import CommentModal from "@/components/CommentModal";
 
-export default {
+export default { 
   components: {
-    CommentModal
+    CommentModal,
   },
   data() {
     return {
       post: {
         content: "",
-        image: ""
+        image: "",
       },
       showCommentModal: false,
+      userId: "",
       selectedPost: {},
+      selectedUser: {},
       showPostModal: false,
       fullPost: {},
       postComments: [],
-      userId: ""
     };
   },
   computed: {
-    ...mapState(["userProfile", "posts"])
+    ...mapState(["userProfile", "posts"]),
+  },
+  created() {
+    // this.getUser();
   },
   methods: {
     createPost() {
       this.$store.dispatch("createPost", {
         content: this.post.content,
-        image: this.post.image
+        image: this.post.image,
       });
       (this.post.content = ""), (this.post.image = "");
     },
@@ -127,7 +134,7 @@ export default {
       const docs = await commentsCollection
         .where("postId", "==", post.id)
         .get();
-      docs.forEach(doc => {
+      docs.forEach((doc) => {
         let comment = doc.data();
         comment.id = doc.id;
         this.postComments.push(comment);
@@ -138,7 +145,15 @@ export default {
     closePostModal() {
       this.postComments = [];
       this.showPostModal = false;
-    }
+    },
+    // async getUser(post) {
+    //   const docs = await usersCollection.where("userId", "==", post.userId).get();
+    //   docs.forEach((doc) => {
+    //     if (doc.exists) {
+    //       return post.userId;
+    //     }
+    //   });
+    // },
   },
   filters: {
     formatDate(val) {
@@ -153,8 +168,8 @@ export default {
         return val;
       }
       return `${val.substring(0, 200)}...`;
-    }
-  }
+    },
+  },
 };
 </script>
 

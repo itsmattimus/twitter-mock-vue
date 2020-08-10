@@ -2,16 +2,16 @@
   <section id="settings">
     <div class="col1">
       <div class="top-page">
-      <h3>Settings</h3>
-      <p>Update your profile</p>
-      <img id="userpfp" v-if="userProfile.pfp" :src="userProfile.pfp" />  
+        <h3>Settings</h3>
+        <p>Update your profile</p>
+        <img id="userpfp" v-if="userProfile.pfp" :src="userProfile.pfp" />
       </div>
 
       <transition name="fade">
         <p v-if="showSuccess" class="success">Profile Updated</p>
       </transition>
 
-      <form @submit.prevent>
+      <form @submit.prevent id="changeform">
         <label for="name">Name</label>
         <input v-model.trim="name" type="text" :placeholder="userProfile.name" id="name" />
 
@@ -39,7 +39,7 @@ export default {
       pfp: "",
       imageData: "",
       uploadValue: 0,
-      showSuccess: false
+      showSuccess: false,
     };
   },
   computed: {
@@ -67,21 +67,20 @@ export default {
             storageRef.snapshot.ref.getDownloadURL().then((url) => {
               this.pfp = url;
               console.log(this.pfp);
-
-              this.$store.dispatch("updateProfile", {
-                name: this.name !== "" ? this.name : this.userProfile.name,
-                title: this.title !== "" ? this.title : this.userProfile.title,
-                pfp: this.pfp,
-              });
-              console.log(this.pfp);
-
-              this.name = "";
-              this.title = "";
-              this.pfp = "";
             });
           }
         );
       }
+      this.$store.dispatch("updateProfile", {
+        name: this.name !== "" ? this.name : this.userProfile.name,
+        title: this.title !== "" ? this.title : this.userProfile.title,
+        pfp: this.pfp !== "" ? this.pfp : this.userProfile.pfp,
+      });
+      console.log(this.pfp);
+
+      this.name = "";
+      this.title = "";
+      this.pfp = "";
     },
     processFile(event) {
       this.imageData = event.target.files[0];
